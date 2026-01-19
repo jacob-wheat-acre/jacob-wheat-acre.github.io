@@ -1,0 +1,4 @@
+cat > .gitignore <<'EOF'
+/public/
+/.hugo_build.lock
+EOF
