@@ -37,3 +37,27 @@ pagerSize = 10
     name = "GitHub"
     url = "https://github.com/USERNAME"
     weight = 40
+
+
+    [params]
+
+    [[params.socialIcons]]
+      name = "github"
+      url = "https://github.com/jacob-wheat-acre"
+
+    [[params.socialIcons]]
+      name = "linkedin"
+      url = "https://www.linkedin.com/in/jacob-whitaker-678a8b2b0/"
+    
+    [[params.socialIcons]]
+      name = "youtube"
+      url = "https://www.youtube.com/@jacobwhitaker857"
+
+    [[params.socialIcons]]
+      name = "facebook"
+      url = "https://www.facebook.com/profile.php?id=61581110069615"
+
+    [[params.socialIcons]]
+      name = "email"
+      url = "mailto:jacob.wheat.acre@gmail.com"
+    
