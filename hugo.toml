@@ -36,6 +36,10 @@ pagerSize = 10
     url = "https://www.facebook.com/profile.php?id=61581110069615"
 
   [[params.socialIcons]]
+    name = "instagram"
+    url = "https://www.instagram.com/maxwell_attaxwell/"
+
+  [[params.socialIcons]]
     name = "email"
     url = "mailto:jacob.wheat.acre@gmail.com"
 
