@@ -1,6 +1,3 @@
-# IMPORTANT:
-# If your repo is USERNAME.github.io -> baseURL = "https://USERNAME.github.io/"
-# If your repo is anything else (e.g., "portfolio") -> baseURL = "https://USERNAME.github.io/portfolio/"
 baseURL = "https://jacob-wheat-acre.github.io/"
 languageCode = "en-us"
 title = "Jacob Wheat Acre"
@@ -16,6 +13,26 @@ pagerSize = 10
 
   # Optional: make the home page list blog posts
   mainSections = ["blog"]
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/jacob-wheat-acre"
+
+  [[params.socialIcons]]
+    name = "linkedin"
+    url = "https://www.linkedin.com/in/jacob-whitaker-678a8b2b0/"
+
+  [[params.socialIcons]]
+    name = "youtube"
+    url = "https://www.youtube.com/@jacobwhitaker857"
+
+  [[params.socialIcons]]
+    name = "facebook"
+    url = "https://www.facebook.com/profile.php?id=61581110069615"
+
+  [[params.socialIcons]]
+    name = "email"
+    url = "mailto:jacob.wheat.acre@gmail.com"
 
 [menu]
   [[menu.main]]
@@ -35,29 +52,5 @@ pagerSize = 10
 
   [[menu.main]]
     name = "GitHub"
-    url = "https://github.com/USERNAME"
+    url = "https://github.com/jacob-wheat-acre"
     weight = 40
-
-
-    [params]
-
-    [[params.socialIcons]]
-      name = "github"
-      url = "https://github.com/jacob-wheat-acre"
-
-    [[params.socialIcons]]
-      name = "linkedin"
-      url = "https://www.linkedin.com/in/jacob-whitaker-678a8b2b0/"
-    
-    [[params.socialIcons]]
-      name = "youtube"
-      url = "https://www.youtube.com/@jacobwhitaker857"
-
-    [[params.socialIcons]]
-      name = "facebook"
-      url = "https://www.facebook.com/profile.php?id=61581110069615"
-
-    [[params.socialIcons]]
-      name = "email"
-      url = "mailto:jacob.wheat.acre@gmail.com"
-    
