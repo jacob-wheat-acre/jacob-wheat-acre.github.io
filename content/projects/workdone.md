@@ -63,4 +63,4 @@ These comparisons are grounded in real energy values and are meant to build intu
 The app is currently distributed via **TestFlight**.
 
 ## Links
-- Beta: TestFlight (link): *requires the TestFlight app*
+- Beta: https://testflight.apple.com/join/4NYyz45E *requires the TestFlight app*
