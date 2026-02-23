@@ -4,7 +4,12 @@ title = "Jacob Wheat Acre"
 theme = "PaperMod"
 pagerSize = 10
 
+[author]
+  name = "Jacob Wheat Acre"
+  email = "jacob.wheat.acre@gmail.com"
+  
 [params]
+  author = "Jacob Wheat Acre"
   defaultTheme = "auto"        # "light", "dark", or "auto"
   ShowReadingTime = true
   ShowPostNavLinks = true
