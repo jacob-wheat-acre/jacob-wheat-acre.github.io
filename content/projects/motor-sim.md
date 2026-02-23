@@ -6,7 +6,7 @@ summary: "A deep technical walkthrough of a motor-start voltage-change model, in
 ---
 
 ## Overview
-This project is an engineering screening tool for motor-start voltage-change risk on distribution systems.  
+This project is an engineering screening tool for motor-start voltage-change risk on distribution systems.
 The goal is to estimate rapid voltage change at the point of common coupling and determine whether a proposed application is likely to violate flicker/voltage-step criteria.
 
 This is intended for fast planning decisions:
@@ -25,7 +25,7 @@ Given:
 - capacitor bank near the load
 
 Estimate:
-- event voltage change magnitude `|ΔV|%`
+- event voltage-change magnitude `abs_deltaV_percent`
 - margin to utility screening thresholds
 - whether the case is likely acceptable, review-level, or likely violating
 
@@ -36,24 +36,24 @@ The model uses a per-phase Thevenin equivalent:
 
 where:
 - `Z_upstream` is user-supplied upstream Thevenin impedance (MV side, ohm/phase)
-- `Z_xfmr` is derived from transformer nameplate `%Z` and `X/R`
+- `Z_xfmr` is derived from transformer nameplate `percent_Z` and `X_over_R`
 - `Z_line` is accumulated from feeder segments
 
-`V_th,ph = V_LL / sqrt(3)`
+`V_th_ph = V_LL / sqrt(3)`
 
 The bus solution is:
 
 `V_load = V_th - Z_th * I_total`
 
-and reported voltage change is:
+Reported voltage change:
 
-`ΔV% = 100 * (1 - |V_load|/|V_th|)`
+`deltaV_percent = 100 * (1 - abs(V_load)/abs(V_th))`
 
 Screening metric:
 
-`|ΔV|% = abs(ΔV%)`
+`abs_deltaV_percent = abs(deltaV_percent)`
 
-The model classifies by `|ΔV|`, not signed sag alone, since rapid voltage rise can also be problematic.
+The model classifies by `abs_deltaV_percent`, not signed sag alone, since rapid voltage rise can also be problematic.
 
 ## Detailed Equations
 
@@ -63,44 +63,44 @@ The model classifies by `|ΔV|`, not signed sag alone, since rapid voltage rise 
 User-entered:
 `Z_upstream = R_upstream + jX_upstream` (ohm/phase at MV)
 
-This value is expected to come from a utility short-circuit/sequence-network tool (e.g., CAPE-derived Thevenin equivalent).
+This value is expected to come from a utility short-circuit/sequence-network tool (for example, CAPE-derived Thevenin equivalent).
 
 #### Transformer
-Given `V_LL`, `S_3φ`, `%Z`, and `X/R`:
+Given `V_LL`, `S_3ph`, `percent_Z`, and `X_over_R`:
 
-- `Z_base = V_LL^2 / S_3φ`
-- `|Z_xfmr| = (%Z/100) * Z_base`
-- `R_xfmr = |Z_xfmr| / sqrt(1 + (X/R)^2)`
-- `X_xfmr = R_xfmr * (X/R)`
+- `Z_base = V_LL^2 / S_3ph`
+- `abs(Z_xfmr) = (percent_Z/100) * Z_base`
+- `R_xfmr = abs(Z_xfmr) / sqrt(1 + (X_over_R)^2)`
+- `X_xfmr = R_xfmr * X_over_R`
 - `Z_xfmr = R_xfmr + jX_xfmr`
 
 #### Feeder Line
 For mixed conductor segments:
 
-`Z_line = Σ_i miles_i * (R_i + jX_i)`
+`Z_line = sum_i( miles_i * (R_i + jX_i) )`
 
 Conductor `R` and `X` are library values in ohm/mile.
 
 ### 2) Capacitor Bank Convention
 Input capacitor is always **3-phase total kVAr**:
 
-- `Q_cap,total,var = cap_kvar * 1000`
-- `Q_cap,phase,var = Q_cap,total,var / 3`
+- `Q_cap_total_var = cap_kvar * 1000`
+- `Q_cap_phase_var = Q_cap_total_var / 3`
 
-Capacitor current at bus voltage is:
-`I_cap = +j * Q_cap,phase,var / conj(V)`
+Capacitor current at bus voltage:
+`I_cap = +j * Q_cap_phase_var / conj(V)`
 
 ### 3) Start-Method Current Models
 
 #### ATL / SoftStart
 ATL uses locked-rotor current basis from NEMA code-letter kVA/HP band midpoint:
-`S_LR,kVA = HP * midpoint(kVA_per_HP band)`
+`S_LR_kVA = HP * midpoint(kVA_per_HP_band)`
 
 Then:
-`I_LRA,HV = (S_LR*1000)/(sqrt(3)*V_HV,LL)`
+`I_LRA_HV = (S_LR_kVA * 1000)/(sqrt(3)*V_HV_LL)`
 
 Motor start current phasor:
-`I_motor = k_start * I_LRA,HV * (pf - j*sqrt(1-pf^2))`
+`I_motor = k_start * I_LRA_HV * (pf - j*sqrt(1-pf^2))`
 
 - ATL: `k_start = 1.0`
 - SoftStart: `k_start < 1` (current implementation uses `0.5`)
@@ -115,13 +115,13 @@ Voltage is solved iteratively:
 VFD start is represented as current-limited:
 
 - `P_out = HP * 746`
-- `FLA_LV = [P_out/(eff*pf_run)] / (sqrt(3)*V_LV,LL)`
-- `I_lim,LV = vfd_i_limit_pu_fla * FLA_LV`
-- `I_lim,HV = I_lim,LV * (V_LV,LL / V_HV,LL)`
+- `FLA_LV = [P_out/(eff*pf_run)] / (sqrt(3)*V_LV_LL)`
+- `I_lim_LV = vfd_i_limit_pu_fla * FLA_LV`
+- `I_lim_HV = I_lim_LV * (V_LV_LL / V_HV_LL)`
 
 At each iteration, motor current is constructed at bus angle with assumed displacement PF:
 
-`I_motor = rect(I_lim,HV, angle(V)-phi)` where `phi = acos(pf_vfd)`
+`I_motor = rect(I_lim_HV, angle(V)-phi)` where `phi = acos(pf_vfd)`
 
 Then:
 `I_total = I_motor + I_cap`
@@ -136,9 +136,9 @@ Limit is selected from event-frequency logic (`starts/hour`), then:
 - `limit_threshold = allowable rapid voltage-change limit`
 
 Classification:
-- `OK` if `|ΔV| < review_threshold`
-- `REVIEW` if `review_threshold <= |ΔV| < limit_threshold`
-- `LIKELY VIOLATION` if `|ΔV| >= limit_threshold`
+- `OK` if `abs_deltaV_percent < review_threshold`
+- `REVIEW` if `review_threshold <= abs_deltaV_percent < limit_threshold`
+- `LIKELY VIOLATION` if `abs_deltaV_percent >= limit_threshold`
 
 The tool also estimates:
 - `Max HP (No Review)`
@@ -150,14 +150,14 @@ for the same network assumptions.
 - Upstream `R`, `X`: ohm/phase (MV side)
 - Conductor values: ohm/mile
 - Segment lengths: miles
-- Transformer: kVA, `%Z`, `X/R`
+- Transformer: kVA, `percent_Z`, `X_over_R`
 - Capacitor bank: **3-phase total kVAr**
 - Motor size: HP
 - Voltage levels: line-line volts
 
 ## Outputs
-- Signed `ΔV%` (indicates sag vs rise)
-- `|ΔV|%` (screening metric)
+- Signed `deltaV_percent` (indicates sag vs rise)
+- `abs_deltaV_percent` (screening metric)
 - Classification (`OK`, `REVIEW`, `LIKELY VIOLATION`)
 - Margin to limit
 - Study plots (overview/compare/custom case)
@@ -167,21 +167,21 @@ for the same network assumptions.
 - Balanced three-phase operation
 - Per-phase Thevenin reduction
 - Fixed-frequency ATL/soft-start representation
-- VFD represented by current limit + assumed displacement PF
+- VFD represented by current limit plus assumed displacement PF
 - No detailed harmonic network or control-loop transient model
 - No explicit unbalance, fault, or time-domain EMT behavior
 
 ## Sensitivity and Dominant Drivers
-In practice, `|ΔV|` is most sensitive to:
-1. `|Z_th|` (upstream strength + transformer + line)
+In practice, `abs_deltaV_percent` is most sensitive to:
+1. `abs(Z_th)` (upstream strength + transformer + line)
 2. start current magnitude and PF (technology-dependent)
 3. capacitor-bank size and local voltage interaction
-4. motor size and event frequency assumptions
+4. motor size and event-frequency assumptions
 
 Interpretation:
-- stronger source / lower feeder impedance -> lower `|ΔV|`
-- VFD current limit usually reduces `|ΔV|` vs ATL
-- large capacitors can shift signed `ΔV` toward rise; screening still uses `|ΔV|`
+- stronger source / lower feeder impedance -> lower `abs_deltaV_percent`
+- VFD current limit usually reduces `abs_deltaV_percent` vs ATL
+- large capacitors can shift signed `deltaV_percent` toward rise; screening still uses `abs_deltaV_percent`
 
 ## Validation Approach (What to Check)
 To validate in your utility context:
@@ -192,7 +192,7 @@ To validate in your utility context:
 - soft-start multiplier
 - VFD PF/current-limit assumptions
 - conductor `R/X` basis (spacing/temperature basis consistency)
-5. Ensure thresholds match your utility’s approved flicker/step criteria and event rates.
+5. Ensure thresholds match your utility approved flicker/step criteria and event rates.
 
 ## Known Limitations / Possible Inaccuracy Sources
 - Simplified VFD front-end behavior (no full converter dynamics)
