@@ -3,12 +3,8 @@ title: "About"
 draft: false
 ---
 
-Hello, my name is Jacob Wheat Acre. 
+Hello, I'm Jacob Whitaker, P.E.
 
-I have a BS in Electrical Engineering. I am a Professional Engineer. 
-
-I've been working in the power industry for the past decade.
-
-I am working on coding projects to sharpen my skills, and I'm looking for ways to implement this knowledge-base in my professional life.
-
-I am also a musician, husband, dog-owner, snowboarder, book-lover, and believer.
+I’m a distribution engineering manager in the electric utility industry with 10+ years of experience in reliability, engineering governance, relay settings, power quality, and DER interconnection studies.
+This site is where I publish projects and technical writeups—mostly power-systems modeling and small software tools that help me think clearly about real-world grid problems (and occasionally some fun side projects). I’m especially interested in the intersection of grid modernization, analytics, and practical engineering execution.
+Outside of work, I’m a musician (piano/violin/organ; I also conduct), a husband, a dog owner, a snowboarder, a book lover, and a person of faith.
