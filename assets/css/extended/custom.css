@@ -1,0 +1,12 @@
+/* Hide list-card metadata so project tiles don't show date or read time. */
+.post-entry .entry-footer {
+  display: none;
+}
+
+.project-group {
+  margin-top: 2rem;
+}
+
+.project-group-header {
+  margin-bottom: 1rem;
+}

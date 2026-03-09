@@ -1,27 +1,24 @@
 baseURL = "https://jacob-wheat-acre.github.io/"
 languageCode = "en-us"
-title = "Jacob Wheat Acre"
+title = "Jacob Whitaker"
 theme = "PaperMod"
 pagerSize = 10
 
 [author]
-  name = "Jacob Wheat Acre"
+  name = "Jacob Whitaker"
   email = "jacob.wheat.acre@gmail.com"
   
 [params]
-  author = "Jacob Wheat Acre"
+  author = "Jacob Whitaker"
   defaultTheme = "auto"        # "light", "dark", or "auto"
   ShowReadingTime = true
   ShowPostNavLinks = true
   ShowCodeCopyButtons = true
   ShowBreadCrumbs = true
 
-  # Optional: make the home page list blog posts
-  mainSections = ["blog"]
-
   [params.profileMode]
   enabled = true
-  title = "Jacob Wheat Acre"
+  title = "Jacob Whitaker"
   subtitle = "Distribution engineering • coding projects • music"
 
   [[params.socialIcons]]
@@ -50,21 +47,16 @@ pagerSize = 10
 
 [menu]
   [[menu.main]]
-    name = "Projects"
-    url = "/projects/"
+    name = "Professional"
+    url = "/projects/professional/"
     weight = 10
 
   [[menu.main]]
-    name = "Blog"
-    url = "/blog/"
+    name = "Personal"
+    url = "/projects/personal/"
     weight = 20
 
   [[menu.main]]
     name = "About"
     url = "/about/"
     weight = 30
-
-  [[menu.main]]
-    name = "GitHub"
-    url = "https://github.com/jacob-wheat-acre"
-    weight = 40
